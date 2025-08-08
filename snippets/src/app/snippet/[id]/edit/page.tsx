@@ -2,7 +2,7 @@
 import EditSnippetForm from '@/components/EditSnippetForm';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import React from 'react'
+import { useEffect } from 'react';
 
 const EditSnippetPage = async({params}: {params: Promise<{id: string}>}) => {
     const id = parseInt((await params).id);
