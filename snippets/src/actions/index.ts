@@ -22,3 +22,25 @@ export const saveSnippet =async(id:number,code:string)=>{
     });
     redirect("/");
   };
+
+ export async function Create(prevState:{message:string},formData: FormData) {
+          const title = formData.get('title') ;
+          const code = formData.get('code') ;
+          if(typeof title !== "string" || title.length < 4){
+            return  {message: "Title is required and must be longer"};
+          }
+          if(typeof code !== "string" || code.length < 10){
+            return  {message: "Code is required and must be longer"};
+          }
+  
+          const snippet = await prisma.snippet.create({
+              data: {
+                  code: code,
+                  title: title,
+              },
+          });
+          console.log("created snippet", snippet);
+  
+          redirect("/");
+      }
+  
