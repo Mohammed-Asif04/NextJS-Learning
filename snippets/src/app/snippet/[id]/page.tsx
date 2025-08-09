@@ -11,6 +11,9 @@ const SnippetDetailPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const id = parseInt((await params).id);
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const snippet = await prisma.snippet.findUnique({
     where: {
       id: id,
@@ -18,6 +21,7 @@ const SnippetDetailPage = async ({
   });
 
   if (!snippet) notFound();
+
   const deleteSnippetAction = deleteSnippet.bind(null, id);
 
   return (
@@ -25,9 +29,13 @@ const SnippetDetailPage = async ({
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-xl">{snippet.title}</h1>
         <div className="flex items-center gap-2">
-          <Link href={`/snippet/${snippet.id}/edit`}><Button>Edit</Button></Link>
+          <Link href={`/snippet/${snippet.id}/edit`}>
+            <Button>Edit</Button>
+          </Link>
           <form action={deleteSnippetAction}>
-            <Button variant={"destructive"} type="submit">delete</Button>
+            <Button variant={"destructive"} type="submit">
+              delete
+            </Button>
           </form>
         </div>
       </div>
